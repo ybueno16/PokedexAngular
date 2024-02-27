@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { PokemonApiService } from '../pokemonApiService/pokemon-api.service';
+import {
+  PokemonApi,
+  PokemonApiService,
+} from '../pokemonApiService/pokemon-api.service';
 
 @Component({
   selector: 'app-pokemon-list-component',
@@ -7,13 +10,14 @@ import { PokemonApiService } from '../pokemonApiService/pokemon-api.service';
   styleUrls: ['./pokemon-list.component.css'],
 })
 export class PokemonListComponent implements OnInit {
-  pokemons: any[] = [];
+  pokemons: PokemonApi[] = [];
 
   constructor(private pokemonAPi: PokemonApiService) {}
 
-  ngOnInit() {
-    this.pokemonAPi
-      .fetchPokemonList()
-      .subscribe((data) => (this.pokemons = data));
+  ngOnInit(): void {
+    this.pokemonAPi.getPokemon().subscribe((pokemons) => {
+      this.pokemons = pokemons;
+      console.log(pokemons);
+    });
   }
 }
